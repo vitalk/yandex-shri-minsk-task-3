@@ -1,6 +1,7 @@
 (function () {
     var video = document.querySelector('.camera__video'),
-        canvas = document.querySelector('.camera__canvas');
+        canvas = document.querySelector('.camera__canvas'),
+        control = document.querySelector('.controls__filter');
 
     var getVideoStream = function (callback) {
         navigator.getUserMedia = navigator.getUserMedia ||
@@ -56,9 +57,7 @@
             }
         };
 
-        var filterName = document.querySelector('.controls__filter').value;
-
-        return filters[filterName](pixel);
+        return filters[control.value](pixel);
     };
 
     var applyFilter = function () {
