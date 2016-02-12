@@ -62,22 +62,25 @@
     };
 
     var applyFilter = function () {
-        for (var x = 0; x < canvas.width; x++) {
-            for (var y = 0; y < canvas.height; y++) {
-                var pixel = canvas.getContext('2d').getImageData(x, y, 1, 1);
+        var pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height),
+            d = pixels.data,
+            pixel;
 
-                pixel.data = applyFilterToPixel(pixel.data);
-
-                canvas.getContext('2d').putImageData(pixel, x, y);
-            }
+        for (var i = 0, len = d.length; i < len; i+=4) {
+            pixel  = applyFilterToPixel([d[i], d[i+1], d[i+2]]);
+            d[i]   = pixel[0];
+            d[i+1] = pixel[1];
+            d[i+2] = pixel[2];
         }
+
+        canvas.getContext('2d').putImageData(pixels, 0, 0);
     };
 
     var captureFrame = function () {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        canvas.getContext('2d').drawImage(video, 0, 0);
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         applyFilter();
     };
 
