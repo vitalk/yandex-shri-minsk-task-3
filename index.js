@@ -77,15 +77,15 @@
     };
 
     var captureFrame = function () {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         applyFilter();
         requestAnimationFrame(captureFrame);
     };
 
     getVideoStream(function () {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
         captureFrame();
     });
 })();
