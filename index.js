@@ -82,11 +82,10 @@
 
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         applyFilter();
+        requestAnimationFrame(captureFrame);
     };
 
     getVideoStream(function () {
         captureFrame();
-
-        setInterval(captureFrame, 16);
     });
 })();
