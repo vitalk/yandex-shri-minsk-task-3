@@ -1,7 +1,8 @@
 (function () {
     var video = document.querySelector('.camera__video'),
         canvas = document.querySelector('.camera__canvas'),
-        control = document.querySelector('.controls__filter');
+        control = document.querySelector('.controls__filter'),
+        context2d = canvas.getContext('2d');
 
     var getVideoStream = function (callback) {
         navigator.getUserMedia = navigator.getUserMedia ||
@@ -61,7 +62,7 @@
     };
 
     var applyFilter = function () {
-        var pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height),
+        var pixels = context2d.getImageData(0, 0, canvas.width, canvas.height),
             d = pixels.data,
             pixel;
 
@@ -72,11 +73,11 @@
             d[i+2] = pixel[2];
         }
 
-        canvas.getContext('2d').putImageData(pixels, 0, 0);
+        context2d.putImageData(pixels, 0, 0);
     };
 
     var captureFrame = function () {
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        context2d.drawImage(video, 0, 0, canvas.width, canvas.height);
         applyFilter();
         requestAnimationFrame(captureFrame);
     };
